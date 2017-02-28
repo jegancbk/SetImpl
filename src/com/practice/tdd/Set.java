@@ -86,7 +86,7 @@ public class Set {
     public Set union(Set manySet) {
 
         for (int index = 0; index < size(); index++) {
-            //unionSet.add()
+            //unionSet.addLast()
             manySet.add(storage[index]);
         }
 
