@@ -1,5 +1,7 @@
 package com.practice.tdd;
 
+import java.util.Arrays;
+
 /**
  * Created by jegan_2 on 2/21/2017.
  */
@@ -27,9 +29,11 @@ public class SetImpl {
     }
 
     private void growContainer() {
-        Object[] largeContainer = new Object[container.length * 2];
+        /*Object[] largeContainer = new Object[container.length * 2];
         System.arraycopy(container, 0, largeContainer, 0, counter);
-        container = largeContainer;
+        container = largeContainer;*/
+
+        container = Arrays.copyOf(container, container.length * 2);
     }
 
     public int size() {

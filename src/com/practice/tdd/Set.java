@@ -1,95 +1,108 @@
 package com.practice.tdd;
 
-import com.sun.deploy.util.ArrayUtil;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.sun.org.apache.xml.internal.utils.ObjectPool;
 
 /**
  * Created by jegan_2 on 2/7/2017.
  */
 public class Set {
 
-    int size = 0;
-    Object[] storage = new Object[10];
+
+    private int counter = 0;
+
+    private Object[] objPool = new Object[5];
 
     public boolean isEmpty() {
-        return size == 0;
+        
+        return (counter == 0);
     }
 
-    public void add(Object obj) {
-        if (!contains(obj)) {
-            if (storage.length == size) {
-                grow();
-            }
-            storage[size++] = obj;
+    public void add(Object i) {
+
+        if (contains(i)){
+            return;
         }
+
+        if (objPool.length == counter) {
+            increaseArraySize();
+        }
+        objPool[counter] = i;
+        counter++;
+
     }
 
-    public void grow() {
-        //storage = Arrays.copyOf(storage, storage.length * 2);
-        Object[] largerStorage = new Object[storage.length * 2];
-        System.arraycopy(storage, 0, largerStorage, 0, size);
-        storage = largerStorage;
+    private void increaseArraySize() {
+        Object[] bigObjectPool = new Object[objPool.length * 2];
+
+        int i = 0;
+        do {
+            bigObjectPool[i] = objPool[i];
+            i++;
+        } while (i < counter);
+
+        //System.arraycopy(objPool, 0, bigObjectPool, 0, counter);
+        objPool = bigObjectPool;
+    }
+
+    public boolean contains(Object i) {
+
+        return indexOf(i) > -1;
+
     }
 
     public int size() {
-        return size;
+
+        return counter;
     }
 
-    public boolean contains(Object obj) {
-        return indexOf(obj) != -1;
-    }
+    public void remove(Object i) {
 
-    public void remove(Object value) {
+        int currentIndex = indexOf(i);
 
 
-        int index = indexOf(value);
-        if (index != -1) {
+            if (currentIndex > -1) {
 
-            /*List<Object> tempList = new ArrayList<Object>(Arrays.asList(storage));
-            tempList.remove(value);
-            storage = tempList.toArray();*/
+                System.arraycopy(objPool, currentIndex + 1, objPool, currentIndex, objPool.length - 1 - currentIndex);
 
-            System.arraycopy(storage, index + 1, storage, index, storage.length - 1 - index);
-            /*storage[index] = storage[size - 1];
-            storage[size - 1] = null;*/
-            size--;
-        }
-    }
-
-    public int indexOf(Object value) {
-        int index = 0;
-        for (Object currentObj:storage) {
-            if(value.equals(currentObj)) {
-                return index;
+                counter--;
             }
-            index++;
-        }
-        return  -1;
+
     }
 
+    private int indexOf(Object data) {
 
-    public Set intersect(Set manySet) {
-
-        Set intersectedSet = new Set();
-
-        for (int index = 0; index < size(); index++) {
-            if (manySet.contains(storage[index])) {
-                intersectedSet.add(storage[index]);
+        for (int loop = 0; loop < counter; loop++) {
+            if (objPool[loop].equals(data)) {
+                return loop;
             }
         }
-        return intersectedSet;
+
+        return -1;
     }
 
-    public Set union(Set manySet) {
+    public Set intersect(Set secondSet) {
 
-        for (int index = 0; index < size(); index++) {
-            //unionSet.addLast()
-            manySet.add(storage[index]);
+        Set resultSet = new Set();
+
+
+        for (int loop = 0; loop < counter; loop++) {
+
+            if (secondSet.contains(objPool[loop])) {
+                resultSet.add(objPool[loop]);
+            }
         }
 
-        return manySet;
+        return resultSet;
+    }
+
+    public Set union(Set secondSet) {
+
+        for (int loop = 0; loop < counter; loop++) {
+
+            secondSet.add(objPool[loop]);
+
+        }
+
+        return secondSet;
     }
 }

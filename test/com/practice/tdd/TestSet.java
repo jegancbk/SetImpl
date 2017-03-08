@@ -1,108 +1,190 @@
 package com.practice.tdd;
 
-import org.junit.jupiter.api.*;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by jegan_2 on 2/7/2017.
  */
 public class TestSet {
 
-    private Set set;
-    private Set oneSet;
-    private Set manySet;
-    private Set grownSet;
-
-    @BeforeEach
-    public void setup() {
-
-        set = new Set();
-
-        oneSet = new Set();
-        oneSet.add(1);
-
-        manySet = new Set();
-        manySet.add(1);
-        manySet.add(2);
-
-        grownSet = new Set();
-
-        grownSet.add(1);
-        grownSet.add(2);
-        grownSet.add(3);
-        grownSet.add(3);
-        grownSet.add(4);
-        grownSet.add(5);
-        grownSet.add(6);
-        grownSet.add(7);
-        grownSet.add(8);
-        grownSet.add(9);
-        grownSet.add(10);
-        grownSet.add(11);
-
-    }
 
     @Test
     public void testIsEmpty() {
 
-        Assertions.assertEquals(true, set.isEmpty());
-        Assertions.assertEquals(false, oneSet.isEmpty());
-        Assertions.assertEquals(false, manySet.isEmpty());
+        Set set = new Set();
+
+        assertTrue(set.isEmpty());
+
+        Set manySet = new Set();
+        manySet.add(1);
+
+        assertFalse(manySet.isEmpty());
+
+
+    }
+
+
+    @Test
+    public void testContains() {
+        Set manySet = new Set();
+
+        manySet.add(1);
+        manySet.add(2);
+
+        assertEquals(true, manySet.contains(2));
+        assertEquals(false, manySet.contains(3));
+    }
+
+    @Test
+    public void testSize() {
+        Set manySet = new Set();
+
+        manySet.add(1);
+        manySet.add(2);
+        manySet.add(3);
+
+        assertEquals(3, manySet.size());
     }
 
     @Test
     public void testAdd() {
+        Set manySet = new Set();
 
-        Assertions.assertEquals(0, set.size());
-        Assertions.assertEquals(1, oneSet.size());
-        Assertions.assertEquals(2, manySet.size());
+        manySet.add(1);
+        manySet.add(2);
+        manySet.add(3);
+
+        assertEquals(3, manySet.size());
+        assertEquals(true, manySet.contains(2));
     }
 
     @Test
-    public void testContains() {
-        Assertions.assertEquals(true, manySet.contains(1));
-        Assertions.assertEquals(true, oneSet.contains(1));
-        Assertions.assertEquals(false, set.contains(2));
+    public void testDynamicSet() {
+        Set manySet = new Set();
+
+        manySet.add(1);
+        manySet.add(2);
+        manySet.add(3);
+        manySet.add(4);
+        manySet.add(5);
+        manySet.add(6);
+        manySet.add(7);
+        manySet.add(8);
+
+        assertEquals(8, manySet.size());
+
+
     }
 
     @Test
-    public void testGrow() {
+    public void testUniqueness() {
 
-        Assertions.assertEquals(11, grownSet.size());
+        Set manySet = new Set();
+
+        manySet.add(1);
+        manySet.add(2);
+        manySet.add(3);
+        manySet.add(2);
+        manySet.add(5);
+        manySet.add(6);
+        manySet.add(5);
+        manySet.add(8);
+
+        assertEquals(6, manySet.size());
+
     }
+
 
     @Test
     public void testRemove() {
-        Assertions.assertEquals(true, grownSet.contains(5));
-        grownSet.remove(5);
 
-        Assertions.assertEquals(false, grownSet.contains(5));
-        Assertions.assertEquals(true, grownSet.contains(6));
-        Assertions.assertEquals(10, grownSet.size());
+        Set manySet = new Set();
+
+        manySet.add(1);
+        manySet.add(2);
+        manySet.add(3);
+        manySet.add(4);
+        manySet.add(5);
+        manySet.add(6);
+        manySet.add(7);
+        manySet.add(8);
+
+        assertEquals(8, manySet.size());
+
+        manySet.remove(5);
+
+        assertEquals(7, manySet.size());
+        assertEquals(false, manySet.contains(5));
+        assertEquals(true, manySet.contains(7));
+
+
     }
 
-    @AfterEach
-    public void teardown() {
-        set = null;
-        oneSet = null;
-        manySet = null;
-        grownSet = null;
-
-    }
 
     @Test
     public void testIntersection() {
-        Set resultSet =  grownSet.intersect(manySet);
+        Set firstSet = new Set();
 
-        Assertions.assertEquals(2, resultSet.size());
+        firstSet.add(1);
+        firstSet.add(2);
+        firstSet.add(3);
+        firstSet.add(4);
+        firstSet.add(5);
+        firstSet.add(6);
+        firstSet.add(7);
+        firstSet.add(8);
+
+        Set secondSet = new Set();
+
+        secondSet.add(3);
+        secondSet.add(9);
+        secondSet.add(12);
+        secondSet.add(1);
+        secondSet.add(45);
+        secondSet.add(3);
+        secondSet.add(13);
+        secondSet.add(25);
+
+        Set resultSet = firstSet.intersect(secondSet);
+
+        assertEquals(2, resultSet.size());
+        assertEquals(true, resultSet.contains(3));
+
     }
 
     @Test
     public void testUnion() {
-        Set newSet = new Set();
-        newSet.add(12);
-        newSet.add(13);
-        Set resultSet = grownSet.union(newSet);
 
-        Assertions.assertEquals(13, resultSet.size());
+        Set firstSet = new Set();
+
+        firstSet.add(1);
+        firstSet.add(2);
+        firstSet.add(3);
+        firstSet.add(4);
+        firstSet.add(5);
+        firstSet.add(6);
+        firstSet.add(7);
+        firstSet.add(8);
+
+        Set secondSet = new Set();
+
+        secondSet.add(3);
+        secondSet.add(9);
+        secondSet.add(12);
+        secondSet.add(1);
+        secondSet.add(45);
+        secondSet.add(3);
+        secondSet.add(13);
+        secondSet.add(25);
+
+        Set resultSet = firstSet.union(secondSet);
+
+        assertEquals(13, resultSet.size());
+
     }
+
 }
