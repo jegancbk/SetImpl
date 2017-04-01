@@ -1,7 +1,5 @@
 package com.practice.tdd;
 
-import com.sun.org.apache.xml.internal.utils.ObjectPool;
-
 /**
  * Created by jegan_2 on 2/7/2017.
  */
@@ -20,6 +18,14 @@ public class Set {
     public void add(Object i) {
 
         if (contains(i)){
+            return;
+        }
+
+        int nullIndex = indexOf(null);
+
+        if (nullIndex != -1) {
+            objPool[nullIndex] = i;
+            counter++;
             return;
         }
 
@@ -62,7 +68,9 @@ public class Set {
 
             if (currentIndex > -1) {
 
-                System.arraycopy(objPool, currentIndex + 1, objPool, currentIndex, objPool.length - 1 - currentIndex);
+                //System.arraycopy(objPool, currentIndex + 1, objPool, currentIndex, objPool.length - 1 - currentIndex);
+
+                objPool[currentIndex] = null;
 
                 counter--;
             }
@@ -72,7 +80,9 @@ public class Set {
     private int indexOf(Object data) {
 
         for (int loop = 0; loop < counter; loop++) {
-            if (objPool[loop].equals(data)) {
+            if (objPool[loop] != null && objPool[loop].equals(data)) {
+                return loop;
+            } else if(objPool[loop] == data && data == null) {
                 return loop;
             }
         }

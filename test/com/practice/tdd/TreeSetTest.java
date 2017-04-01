@@ -51,18 +51,18 @@ public class TreeSetTest {
 	{
 		TreeSet nonEmptySet = new TreeSet();
 		nonEmptySet.add("1");
-		nonEmptySet.add("4");
 		nonEmptySet.add("2");
-		nonEmptySet.add("7");
+		nonEmptySet.add("3");
+		nonEmptySet.add("4");
+		nonEmptySet.add("5");
 		nonEmptySet.add("6");
-		nonEmptySet.add("9");
 
 		assertTrue(nonEmptySet.contains("1"));
 		nonEmptySet.delete("1");
 		//assertFalse(nonEmptySet.contains("1"));
-		assertTrue(nonEmptySet.contains("7"));
+		assertTrue(nonEmptySet.contains("6"));
 		//assertEquals(5,nonEmptySet.size());		
 		//assertEquals(1, nonEmptySet.indexOf("4"));
-		assertEquals(2, nonEmptySet.indexOf("6"));
+		assertEquals(4, nonEmptySet.indexOf("6"));
 	}
 }

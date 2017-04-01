@@ -110,16 +110,19 @@ public class TestSet {
         manySet.add(4);
         manySet.add(5);
         manySet.add(6);
-        manySet.add(7);
+        manySet.add("");
         manySet.add(8);
+        manySet.add("");
 
         assertEquals(8, manySet.size());
 
         manySet.remove(5);
 
-        assertEquals(7, manySet.size());
+        manySet.add(9);
+
+        assertEquals(8, manySet.size());
         assertEquals(false, manySet.contains(5));
-        assertEquals(true, manySet.contains(7));
+        assertEquals(true, manySet.contains(""));
 
 
     }

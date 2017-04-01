@@ -24,12 +24,12 @@ public class TreeSet {
 			grow();
 		}
 		objectPool[count] = string; //1
-				
+		count++;
+
 		if(count > 1)
 		{
-			insertionSort(string);
+			insertionSort();
 		}
-		count++;
 	}
 	
 	private void grow(){
@@ -38,14 +38,27 @@ public class TreeSet {
 		objectPool = tempArr;
 		
 	}
-	private void insertionSort(String string)
+	private void insertionSort()
 	{	
-			if(objectPool[count-1].compareTo(objectPool[count])<0) 
+			/*if(objectPool[count-1].compareTo(objectPool[count])<0)
 			{
 				String temp = objectPool[count-1];
 				objectPool[count-1]= objectPool[count];//2
 				objectPool[count] = temp;				
-			}	
+			}*/
+
+
+		for (int i = 1; i < count; i++) {
+			for (int j = i; j > 0; j--) {
+
+				if (objectPool[j].compareTo(objectPool[i]) > 0) {
+					String temp = objectPool[j];
+					objectPool[j] = objectPool[i];
+					objectPool[i] = temp;
+				}
+
+			}
+		}
 	}
 
 	public int size() {

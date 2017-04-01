@@ -25,11 +25,11 @@ public class Sorter {
 
         for (int i = 1; i < inputArray.length; i++) {
             for (int j = i; j > 0; j--) {
-
-                if (inputArray[j] > inputArray[i]) {
+                System.out.println("I ==> " + inputArray[i] + "\t" + "J ==> " + inputArray[j]);
+                if (inputArray[j] < inputArray[j-1]) {
                     int temp = inputArray[j];
-                    inputArray[j] = inputArray[i];
-                    inputArray[i] = temp;
+                    inputArray[j] = inputArray[j-1];
+                    inputArray[j-1] = temp;
                 }
 
             }
@@ -39,11 +39,11 @@ public class Sorter {
     }
 
     public static void main(String[] args) {
-        int[] inputArray = new int[]{10, 3, 4, 2, 11, -1};
+        int[] inputArray = new int[]{6, 2, 3, 8};
         System.out.println("input array");
         printArray(inputArray);
         System.out.println("bubble sort output");
-        printArray(bubbleSort(inputArray));
+        //printArray(bubbleSort(inputArray));
         System.out.println("insertion sort output");
         printArray(insertionSort(inputArray));
     }
@@ -54,5 +54,43 @@ public class Sorter {
         }
         System.out.println();
     }
+
+
+    boolean almostIncreasingSequence(int[] sequence) {
+
+        Integer[] anomalyArray = new Integer[sequence.length];
+
+        for (int i = 1; i < sequence.length-1; i++) {
+            boolean left = sequence[i-1] <= sequence[i];
+            boolean right = sequence[i] <= sequence[i+1];
+            if (left && right) {
+                continue;
+            } else {
+
+                if (!left) {
+                    if (anomalyArray[i-1] != null) {
+                        return false;
+                    }
+                    anomalyArray[i-1] = sequence[i-1];
+                } else if (!right) {
+                    if (anomalyArray[i] != null) {
+
+                        return false;
+                    }
+                    anomalyArray[i] = sequence[i];
+                } else {
+                    return false;
+                }
+
+                return false;
+                //anomalyArray[i] = sequence[i];
+            }
+
+        }
+
+
+        return true;
+    }
+
 
 }
